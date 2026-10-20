@@ -1,6 +1,14 @@
 # Privacy and local storage
 
-Catter does not operate an account server, analytics service or location-history endpoint. This describes Catter's implementation, not the independent behavior of Apple, LocalDevVPN or other apps.
+Catter 0.7 introduces an invitation-based access service. It does not collect location history or Apple credentials. This describes the new implementation, not the independent behavior of Apple, Cloudflare, LocalDevVPN or other apps. Earlier builds have no invitation service.
+
+## Invitation access
+
+The owner-operated Cloudflare service stores invitation labels, hashed invitation codes and device credentials, expiry/revocation state, activation times and last successful access-check times. Labels are supplied by the owner. The app sends its random device credential and licence ID over HTTPS; no hardware serial number or coordinates are sent to this service. A successful check is evidence of a device check-in, not a count of people actively using the app.
+
+Installer invitation codes stay in process memory until sign-out or closure. The iPhone stores a random credential and licence ID in a non-migrating Keychain entry, which may survive app reinstallation under the same signing identity. Access checks require internet; expiry/revocation blocks new simulation commands, but not Restore.
+
+The service stores an hourly salted IP-address hash for rate limiting for up to approximately three hours. Cloudflare independently processes network metadata. Invitation records remain until the owner deletes them from the database. Contact the owner for removal. Owner keys are held in dashboard tab memory, never browser local storage.
 
 ## Apple sign-in
 
