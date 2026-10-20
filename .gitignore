@@ -1,0 +1,12 @@
+# Public download repository: track only reviewed presentation files.
+# Release binaries belong in GitHub Releases, not Git history.
+/*
+!/.gitignore
+!/README.md
+!/Branding/
+/Branding/*
+!/Branding/Catter.png
+!/docs/
+/docs/*
+!/docs/PRIVACY.md
+!/docs/SECURITY.md
