@@ -42,3 +42,7 @@ The interface/backend communicate through inherited process pipes. IPA validatio
 Certificate replacement requires review and explicit confirmation. Revocation may affect other sideloaded apps. Pairing backups are verified before transfer.
 
 These controls have targeted regression tests. They are not an independent security audit or a guarantee that dependencies have no vulnerabilities. See [security reporting](SECURITY.md).
+
+## Update checks
+
+From version 0.9.0, Catter and its installers check public release information from the Catter access service. Checks send no invitation code, Apple credentials, device identifier or location. The service processes network metadata and uses its short-lived rate-limit hash. Downloads open the public GitHub release page; updates are not installed automatically.
