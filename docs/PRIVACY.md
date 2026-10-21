@@ -4,7 +4,7 @@ Catter 0.7 introduces an invitation-based access service. It does not collect lo
 
 ## Invitation access
 
-The owner-operated Cloudflare service stores invitation labels, hashed invitation codes and device credentials, expiry/revocation state, activation times and last successful access-check times. Labels are supplied by the owner. The app sends its random device credential and licence ID over HTTPS; no hardware serial number or coordinates are sent to this service. A successful check is evidence of a device check-in, not a count of people actively using the app.
+The owner-operated Cloudflare service stores invitation labels, hashed invitation codes and device credentials, expiry/revocation state, activation times and last successful access-check times. Labels are supplied by the owner. The app sends its random device credential and licence ID over HTTPS; no hardware serial number or coordinates are sent to this service. From installer 0.8, setup sends a SHA-256 digest of the selected USB iPhone identifier; the service hashes it again and binds it to the invitation. The original identifier is not uploaded. The installer also transfers a setup proof into the prepared iPhone?s private app storage; first activation of an installer-bound code requires that proof. Short derived binding references are visible to the owner. A successful check is evidence of a device check-in, not a count of people actively using the app.
 
 Installer invitation codes stay in process memory until sign-out or closure. The iPhone stores a random credential and licence ID in a non-migrating Keychain entry, which may survive app reinstallation under the same signing identity. Access checks require internet; expiry/revocation blocks new simulation commands, but not Restore.
 
@@ -14,7 +14,7 @@ The service stores an hourly salted IP-address hash for rate limiting for up to 
 
 The desktop backend authenticates with Apple. Passwords, verification codes, account tokens and pending challenges are held in memory. The UI clears password input after submission. Normal close/sign-out clears the account store; startup removes legacy disk sessions before reading account state.
 
-Closing during signing/preparation is blocked until the operation finishes. Local logout does not revoke Apple's server-side sessions, remove Apple's device-list entries or guarantee a new verification-code challenge. Apple decides when a code is required.
+Closing during signing/preparation asks for cancellation confirmation. Cancelling can leave installation incomplete; the in-memory account session ends with the backend process. Local logout does not revoke Apple's server-side sessions, remove Apple's device-list entries or guarantee a new verification-code challenge. Apple decides when a code is required.
 
 Memory-only storage is not a promise of secure erasure from RAM, swap or crash dumps.
 
